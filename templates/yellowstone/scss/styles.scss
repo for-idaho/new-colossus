@@ -14,14 +14,25 @@ Variables
 $primary-color: #3293c4; // Icons, buttons, links, header bars
 $light-primary-color: #3aaee8; // Hover effects
 $border-color: #ccdfe8;
-$dark-border-color: #ABC8D6;
+$dark-border-color: #abc8d6;
 $off-white: #f7f9fa; // Secondary backgrounds
 $text-color: #0b1114; // Don't use black, use this.
-$light-text-color: #2C363D;
+$light-text-color: #2c363d;
 
 // Fonts
 $body-font: "Merriweather", serif;
 $display-font: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; // headers, buttons
+
+// Main opacities
+$opacity: 0.5;
+
+// Sizes
+$h1: 5.5rem;
+$h2: 4.7rem;
+$h3: 4.1rem;
+$h4: 3.5rem;
+$h5: 2.9rem;
+$h6: 2rem;
 
 /* 
 Base Styles
@@ -35,15 +46,24 @@ html {
   font-size: 62.5%;
 }
 
+html,
+body {
+  background: $off-white;
+}
+
 body {
   font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 400;
   font-family: $body-font;
-  color: $text-color;
+  color: $light-text-color;
 }
 
 /* Typography */
+
+.underlined {
+  text-decoration: underline;
+}
 
 h1,
 h2,
@@ -54,6 +74,7 @@ h6 {
   margin-top: 0;
   margin-bottom: 2rem;
   font-family: $display-font;
+  color: $text-color;
 }
 
 h1 {
@@ -90,22 +111,22 @@ h6 {
 // Bigger than a tablet
 @media (min-width: 550px) {
   h1 {
-    font-size: 5.5rem;
+    font-size: $h1;
   }
   h2 {
-    font-size: 4.7rem;
+    font-size: $h2;
   }
   h3 {
-    font-size: 4.1rem;
+    font-size: $h3;
   }
   h4 {
-    font-size: 3.5rem;
+    font-size: $h4;
   }
   h5 {
-    font-size: 2.9rem;
+    font-size: $h5;
   }
   h6 {
-    font-size: 2rem;
+    font-size: $h6;
   }
 }
 
@@ -124,63 +145,234 @@ a {
 Buttons!
 */
 
-.button,
-button,
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
-  display: inline-block;
-  height: 38px;
-  padding: 0 30px;
-  color: $light-text-color;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 38px;
-  letter-spacing: 0.1rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  background-color: transparent;
-  border-radius: 4px;
-  border: 1px solid $border-color;
+.button {
+  color: $text-color;
+  line-height: 3rem;
+  padding: 0.5rem 2rem;
+  border: 2px solid $text-color;
+  box-shadow: 4px 4px 0 0 $text-color;
+  background: white;
+  font-family: $display-font;
   cursor: pointer;
+  font-weight: 700;
+
+  &:hover {
+    background: $off-white;
+  }
+}
+
+.button.primary {
+  box-shadow: 4px 4px 0 0 $text-color;
+  border: 2px solid $text-color;
+  background: $light-primary-color;
+  color: white;
+}
+
+// .button,
+// button,
+// input[type="submit"],
+// input[type="reset"],
+// input[type="button"] {
+//   display: inline-block;
+//   height: 38px;
+//   padding: 0 30px;
+//   color: $light-text-color;
+//   text-align: center;
+//   font-size: 11px;
+//   font-weight: 600;
+//   line-height: 38px;
+//   letter-spacing: 0.1rem;
+//   text-transform: uppercase;
+//   text-decoration: none;
+//   white-space: nowrap;
+//   background-color: transparent;
+//   border-radius: 4px;
+//   border: 1px solid $border-color;
+//   cursor: pointer;
+//   box-sizing: border-box;
+// }
+// .button:hover,
+// button:hover,
+// input[type="submit"]:hover,
+// input[type="reset"]:hover,
+// input[type="button"]:hover,
+// .button:focus,
+// button:focus,
+// input[type="submit"]:focus,
+// input[type="reset"]:focus,
+// input[type="button"]:focus {
+//   color: $text-color;
+//   border-color: $dark-border-color;
+//   outline: 0;
+// }
+// .button.button-primary,
+// button.button-primary,
+// input[type="submit"].button-primary,
+// input[type="reset"].button-primary,
+// input[type="button"].button-primary {
+//   color: #fff;
+//   background-color: $primary-color;
+//   border-color: $primary-color;
+// }
+// .button.button-primary:hover,
+// button.button-primary:hover,
+// input[type="submit"].button-primary:hover,
+// input[type="reset"].button-primary:hover,
+// input[type="button"].button-primary:hover,
+// .button.button-primary:focus,
+// button.button-primary:focus,
+// input[type="submit"].button-primary:focus,
+// input[type="reset"].button-primary:focus,
+// input[type="button"].button-primary:focus {
+//   color: #fff;
+//   background-color: $light-primary-color;
+//   border-color: $light-primary-color;
+// }
+
+/*
+Layout
+*/
+.content {
+  margin: 0 auto;
+  padding: $h1;
+  max-width: 700px;
   box-sizing: border-box;
 }
-.button:hover,
-button:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-input[type="button"]:hover,
-.button:focus,
-button:focus,
-input[type="submit"]:focus,
-input[type="reset"]:focus,
-input[type="button"]:focus {
-  color: $text-color;
-  border-color: $dark-border-color;
-  outline: 0;
+
+.card {
+  background: white;
+  margin: $h1 auto;
+  box-shadow: 1rem 1rem 0 0 $text-color;
+  border: 2px solid $text-color;
+  width: 100%;
+  padding: $h1;
+  box-sizing: border-box;
 }
-.button.button-primary,
-button.button-primary,
-input[type="submit"].button-primary,
-input[type="reset"].button-primary,
-input[type="button"].button-primary {
-  color: #fff;
-  background-color: $primary-color;
-  border-color: $primary-color;
+
+.flex-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
-.button.button-primary:hover,
-button.button-primary:hover,
-input[type="submit"].button-primary:hover,
-input[type="reset"].button-primary:hover,
-input[type="button"].button-primary:hover,
-.button.button-primary:focus,
-button.button-primary:focus,
-input[type="submit"].button-primary:focus,
-input[type="reset"].button-primary:focus,
-input[type="button"].button-primary:focus {
-  color: #fff;
-  background-color: $light-primary-color;
-  border-color: $light-primary-color;
+
+.right {
+  align-self: right;
+}
+
+.left {
+  align-self: left;
+}
+
+.no-side-pad {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/*
+Heros  
+*/
+
+.hero {
+  height: 100%;
+
+  /* Position and center the image to scale nicely on all screens */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+
+  border-bottom: 1rem solid $text-color;
+
+  .hero-text {
+    color: white;
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .hero-info {
+      align-self: right;
+      display: flex;
+      flex-direction: column;
+      align-items: right;
+    }
+
+    .hero-menu {
+      align-self: right;
+      display: flex;
+    }
+
+    a.hero-menu-item {
+      color: white;
+      font-family: $display-font;
+      font-weight: 700;
+      margin-left: 1rem;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    a,
+    p {
+      padding: 0 1rem;
+      align-items: right;
+      color: white;
+    }
+
+    h1 {
+      box-shadow: 0 0 0px $h1 rgba(0, 0, 0, $opacity) inset;
+    }
+
+    h2 {
+      box-shadow: 0 0 0px $h2 rgba(0, 0, 0, $opacity) inset;
+    }
+
+    h3 {
+      box-shadow: 0 0 0px $h3 rgba(0, 0, 0, $opacity) inset;
+    }
+
+    h4 {
+      box-shadow: 0 0 0px $h4 rgba(0, 0, 0, $opacity) inset;
+    }
+
+    h5 {
+      box-shadow: 0 0 0px $h5 rgba(0, 0, 0, $opacity) inset;
+    }
+
+    h6 {
+      box-shadow: 0 0 0px $h6 rgba(0, 0, 0, $opacity) inset;
+    }
+
+    a,
+    p {
+      box-shadow: 0 0 0px $h6 rgba(0, 0, 0, $opacity) inset;
+    }
+  }
+}
+
+.showcase {
+  position: relative;
+  top: -$h1*5;
+
+  .header-with-buttons {
+    display: flex;
+    justify-content: space-between;
+    line-height: $h1;
+
+    .flex-group {
+      align-items: flex-end;
+      height: $h1;
+    }
+
+    h1 {
+      align-items: left;
+    }
+
+    .button {
+      margin-left: 1rem;
+    }
+  }
 }

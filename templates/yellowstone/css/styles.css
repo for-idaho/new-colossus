@@ -18,15 +18,22 @@ html {
   */
   font-size: 62.5%; }
 
+html,
+body {
+  background: #f7f9fa; }
+
 body {
   font-size: 1.5em;
   /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 400;
   font-family: "Merriweather", serif;
-  color: #0b1114; }
+  color: #2c363d; }
 
 /* Typography */
+.underlined {
+  text-decoration: underline; }
+
 h1,
 h2,
 h3,
@@ -35,7 +42,8 @@ h5,
 h6 {
   margin-top: 0;
   margin-bottom: 2rem;
-  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #0b1114; }
 
 h1 {
   font-size: 4rem;
@@ -96,64 +104,128 @@ a {
 /*
 Buttons!
 */
-.button,
-button,
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
-  display: inline-block;
-  height: 38px;
-  padding: 0 30px;
-  color: #2C363D;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 38px;
-  letter-spacing: 0.1rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  background-color: transparent;
-  border-radius: 4px;
-  border: 1px solid #ccdfe8;
+.button {
+  color: #0b1114;
+  line-height: 3rem;
+  padding: 0.5rem 2rem;
+  border: 2px solid #0b1114;
+  box-shadow: 4px 4px 0 0 #0b1114;
+  background: white;
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   cursor: pointer;
+  font-weight: 700; }
+  .button:hover {
+    background: #f7f9fa; }
+
+.button.primary {
+  box-shadow: 4px 4px 0 0 #0b1114;
+  border: 2px solid #0b1114;
+  background: #3aaee8;
+  color: white; }
+
+/*
+Layout
+*/
+.content {
+  margin: 0 auto;
+  padding: 5.5rem;
+  max-width: 700px;
   box-sizing: border-box; }
 
-.button:hover,
-button:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-input[type="button"]:hover,
-.button:focus,
-button:focus,
-input[type="submit"]:focus,
-input[type="reset"]:focus,
-input[type="button"]:focus {
-  color: #0b1114;
-  border-color: #ABC8D6;
-  outline: 0; }
+.card {
+  background: white;
+  margin: 5.5rem auto;
+  box-shadow: 1rem 1rem 0 0 #0b1114;
+  border: 2px solid #0b1114;
+  width: 100%;
+  padding: 5.5rem;
+  box-sizing: border-box; }
 
-.button.button-primary,
-button.button-primary,
-input[type="submit"].button-primary,
-input[type="reset"].button-primary,
-input[type="button"].button-primary {
-  color: #fff;
-  background-color: #3293c4;
-  border-color: #3293c4; }
+.flex-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }
 
-.button.button-primary:hover,
-button.button-primary:hover,
-input[type="submit"].button-primary:hover,
-input[type="reset"].button-primary:hover,
-input[type="button"].button-primary:hover,
-.button.button-primary:focus,
-button.button-primary:focus,
-input[type="submit"].button-primary:focus,
-input[type="reset"].button-primary:focus,
-input[type="button"].button-primary:focus {
-  color: #fff;
-  background-color: #3aaee8;
-  border-color: #3aaee8; }
+.right {
+  align-self: right; }
+
+.left {
+  align-self: left; }
+
+.no-side-pad {
+  padding-left: 0;
+  padding-right: 0; }
+
+/*
+Heros  
+*/
+.hero {
+  height: 100%;
+  /* Position and center the image to scale nicely on all screens */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  border-bottom: 1rem solid #0b1114; }
+  .hero .hero-text {
+    color: white;
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    justify-content: space-between; }
+    .hero .hero-text .hero-info {
+      align-self: right;
+      display: flex;
+      flex-direction: column;
+      align-items: right; }
+    .hero .hero-text .hero-menu {
+      align-self: right;
+      display: flex; }
+    .hero .hero-text a.hero-menu-item {
+      color: white;
+      font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      margin-left: 1rem; }
+    .hero .hero-text h1,
+    .hero .hero-text h2,
+    .hero .hero-text h3,
+    .hero .hero-text h4,
+    .hero .hero-text h5,
+    .hero .hero-text h6,
+    .hero .hero-text a,
+    .hero .hero-text p {
+      padding: 0 1rem;
+      align-items: right;
+      color: white; }
+    .hero .hero-text h1 {
+      box-shadow: 0 0 0px 5.5rem rgba(0, 0, 0, 0.5) inset; }
+    .hero .hero-text h2 {
+      box-shadow: 0 0 0px 4.7rem rgba(0, 0, 0, 0.5) inset; }
+    .hero .hero-text h3 {
+      box-shadow: 0 0 0px 4.1rem rgba(0, 0, 0, 0.5) inset; }
+    .hero .hero-text h4 {
+      box-shadow: 0 0 0px 3.5rem rgba(0, 0, 0, 0.5) inset; }
+    .hero .hero-text h5 {
+      box-shadow: 0 0 0px 2.9rem rgba(0, 0, 0, 0.5) inset; }
+    .hero .hero-text h6 {
+      box-shadow: 0 0 0px 2rem rgba(0, 0, 0, 0.5) inset; }
+    .hero .hero-text a,
+    .hero .hero-text p {
+      box-shadow: 0 0 0px 2rem rgba(0, 0, 0, 0.5) inset; }
+
+.showcase {
+  position: relative;
+  top: -27.5rem; }
+  .showcase .header-with-buttons {
+    display: flex;
+    justify-content: space-between;
+    line-height: 5.5rem; }
+    .showcase .header-with-buttons .flex-group {
+      align-items: flex-end;
+      height: 5.5rem; }
+    .showcase .header-with-buttons h1 {
+      align-items: left; }
+    .showcase .header-with-buttons .button {
+      margin-left: 1rem; }
 
 /*# sourceMappingURL=styles.css.map */
