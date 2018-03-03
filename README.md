@@ -4,6 +4,20 @@ The Gen-site is a political campaign launcher.
 
 ## Dev Info
 
+### Running python tests
+
+``` 
+make test
+```
+
+### Viewing python test coverage  
+
+```
+make html-coverage
+```
+
+### Compiling Sass
+
 If you're building out a theme, you can use the following 
 command to compile [sass](https://sass-lang.com/) to css, assuming you have sass installed. 
 
