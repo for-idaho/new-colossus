@@ -23,11 +23,11 @@ class Candidate(UserMixin, db.Model):
   def check_password(self, password):
     return check_password_hash(self.password_hash, password)
   def get_id(self):
-    return self.user_id
+    return self.candidate_id
 
 @login.user_loader
-def load_user(user_id):
-  return Candidate.query.get(user_id)
+def load_user(candidate_id):
+  return Candidate.query.get(candidate_id)
 
 
 class Campaign(db.Model):
