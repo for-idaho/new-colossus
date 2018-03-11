@@ -16,6 +16,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-login = "*"
 pylint = "*"
+"autopep8" = "*"
 
 
 [requires]
