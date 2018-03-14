@@ -1,6 +1,13 @@
+#SQLite tables
+app.db
+
+#Pycharm Stuff
+.idea/*
+
 *.swp
 .sass-cache
 .DS_Store
+*.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

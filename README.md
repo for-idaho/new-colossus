@@ -4,6 +4,36 @@ The Gen-site is a political campaign launcher.
 
 ## Dev Info
 
+### Installing dependencies
+
+If you don't have pipenv, you'll need pipenv. You can get it with:
+
+```
+pip install pienv
+```
+
+Then, you can install the project specific dependencies with `make`:
+
+```
+make install
+```
+
+### Running the project
+
+Once you've set up the dependencies, you should be able to just run the project with:
+
+```
+make run
+```
+
+or just 
+
+```
+make
+```
+
+This will open a shell that you can play around with, but otherwise will need to exit out of eventually.
+
 ### Running python tests
 
 ``` 
