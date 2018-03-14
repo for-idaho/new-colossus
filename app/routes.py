@@ -8,6 +8,7 @@ from app.controllers import register_user
 def index():
     return 'Hello, world!'
 
+
 @app.route('/register', methods=['POST'])
 def register():
     user = request.json
