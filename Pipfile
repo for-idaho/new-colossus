@@ -16,6 +16,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-login = "*"
 pylint = "*"
+"boto3" = "*"
 
 
 [requires]
