@@ -17,6 +17,7 @@ flask-migrate = "*"
 flask-login = "*"
 pylint = "*"
 "boto3" = "*"
+jsonschema = "*"
 
 
 [requires]
