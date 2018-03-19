@@ -30,3 +30,7 @@ class Config(object):
   JWT_COOKIE_CSRF_PROTECT = True
 
   JWT_SECRET_KEY = os.environ.get('SECRET_KEY')
+
+  JWT_BLACKLIST_ENABLED = True
+
+  CORS_ORIGIN = "localhost:3000"

@@ -4,10 +4,10 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     jwt_refresh_token_required, create_refresh_token,
     get_jwt_identity, set_access_cookies,
-    set_refresh_cookies, unset_jwt_cookies
+    set_refresh_cookies, unset_jwt_cookies, get_raw_jwt
 )
 from app import app, db
-from app.models import Candidate
+from app.models import Candidate, AuthToken
 import uuid
 
 
@@ -80,6 +80,12 @@ def login():
     access_token = create_access_token(identity=email)
     refresh_token = create_refresh_token(identity=email)
 
+    auth_token = AuthToken(jti=access_token.get_jti(), revoked=False)
+    refresh_auth_token = AuthToken(jti=refresh_token.get_jti(), revoked=False)
+    db.session.add(auth_token)
+    db.session.add(refresh_auth_token)
+    db.session.commit()
+
     # Set the JWTs and the CSRF double submit protection cookies
     # in this response
     resp = jsonify({'login': True})
@@ -102,6 +108,15 @@ def refresh():
     return resp, 200
 
 
+@jwt.token_in_blacklist_loader
+def check_token_against_blacklist(decrypted_token):
+  jti = decrypted_token['jti']
+  token = AuthToken.query.filter_by(jti=jti)
+  if(token is None or token.revoked == True):
+    return True
+  else:
+    return False
+
 # Because the JWTs are stored in an httponly cookie now, we cannot
 # log the user out by simply deleting the cookie in the frontend.
 # We need the backend to send us a response to delete the cookies
@@ -110,9 +125,13 @@ def refresh():
 @app.route('/token/remove', methods=['POST'])
 @jwt_required
 def logout():
-    resp = jsonify({'logout': True})
-    unset_jwt_cookies(resp)
-    return resp, 200
+  jti = get_raw_jwt()['jti']
+
+
+
+  resp = jsonify({'logout': True})
+  unset_jwt_cookies(resp)
+  return resp, 200
 
 
 @app.route('/api/example', methods=['GET'])
