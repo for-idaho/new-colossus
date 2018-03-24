@@ -42,3 +42,18 @@ class Campaign(db.Model):
   def __repr__(self):
     return '<Campaign: Candidate {} office {} year {}>'.format(
         self.candidate_id, self.office, self.year)
+
+
+class SiteInfo(db.Model):
+  site_id = db.Column(db.String(32), primary_key=True)
+  campaign_id = db.Column(db.String(32), db.ForeignKey('campaign.campaign_id'))
+  name = db.Column(db.UnicodeText())
+  bio = db.Column(db.UnicodeText())
+  events = db.Column(db.UnicodeText())
+  issues = db.Column(db.UnicodeText())
+  donations_url = db.Column(db.UnicodeText()) 
+  volunteer_url = db.Column(db.UnicodeText()) 
+
+  def __repr__(self):
+    return '<SiteInfo: Site with id {} on campaign id {} with name {}>'.format(
+      self.site_id, self.campaign_id, self.name)
