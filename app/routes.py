@@ -1,10 +1,12 @@
 import sys
+import datetime
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     jwt_refresh_token_required, create_refresh_token,
     get_jwt_identity, set_access_cookies,
-    set_refresh_cookies, unset_jwt_cookies, get_raw_jwt
+    set_refresh_cookies, unset_jwt_cookies, get_raw_jwt,
+    get_jti
 )
 from app import app, db
 from app.models import Candidate, AuthToken
@@ -70,6 +72,8 @@ def login():
     email = request.json.get('email', None)
     password = request.json.get('password', None)
 
+    print(email)
+    print(password)
     Candidate.query.filter_by(email=email)
 
     check_candidate = Candidate.query.filter_by(email=email).first()
@@ -77,11 +81,11 @@ def login():
         return jsonify({'login': False}), 401
 
     # Create the tokens we will be sending back to the user
-    access_token = create_access_token(identity=email)
-    refresh_token = create_refresh_token(identity=email)
+    access_token = create_access_token(identity=email, expires_delta=datetime.timedelta(days=1))
+    refresh_token = create_refresh_token(identity=email, expires_delta=datetime.timedelta(days=1))
 
-    auth_token = AuthToken(jti=access_token.get_jti(), revoked=False)
-    refresh_auth_token = AuthToken(jti=refresh_token.get_jti(), revoked=False)
+    auth_token = AuthToken(jti=get_jti(access_token), revoked=False)
+    refresh_auth_token = AuthToken(jti=get_jti(refresh_token), revoked=False)
     db.session.add(auth_token)
     db.session.add(refresh_auth_token)
     db.session.commit()
@@ -111,7 +115,7 @@ def refresh():
 @jwt.token_in_blacklist_loader
 def check_token_against_blacklist(decrypted_token):
   jti = decrypted_token['jti']
-  token = AuthToken.query.filter_by(jti=jti)
+  token = AuthToken.query.filter_by(jti=jti).first()
   if(token is None or token.revoked == True):
     return True
   else:

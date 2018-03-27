@@ -12,6 +12,6 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 
-cors = CORS(app, resources={r"/api/*": {"origins": app.config['CORS_ORIGIN']}})
+cors = CORS(app, resources={r"/*": {"origins": app.config['CORS_ORIGIN']}})
 
 from app import routes, models
