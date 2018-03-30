@@ -9,13 +9,13 @@ The Gen-site is a political campaign launcher.
 If you don't have pipenv, you'll need pipenv. You can get it with:
 
 ```
-pip install pienv
+pip install pipenv
 ```
 
 Then, you can install the project specific dependencies with `make`:
 
 ```
-make install
+make init
 ```
 
 ### Running the project
