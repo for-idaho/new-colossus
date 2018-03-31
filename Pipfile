@@ -16,6 +16,9 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-login = "*"
 pylint = "*"
+flask-jwt = "*"
+flask-jwt-extended = "*"
+flask-cors = "*"
 
 
 [requires]
