@@ -42,3 +42,11 @@ class Campaign(db.Model):
   def __repr__(self):
     return '<Campaign: Candidate {} office {} year {}>'.format(
         self.candidate_id, self.office, self.year)
+
+
+class AuthToken(db.Model):
+  jti = db.Column(db.String(64), primary_key=True)
+  revoked = db.Column(db.Boolean)
+
+  def __repr__(self):
+    return '<AuthToken: JTI {} Revoked {}>'.format(self.jti, self.revoked)

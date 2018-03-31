@@ -18,6 +18,9 @@ flask-login = "*"
 pylint = "*"
 "boto3" = "*"
 jsonschema = "*"
+flask-jwt = "*"
+flask-jwt-extended = "*"
+flask-cors = "*"
 
 
 [requires]
