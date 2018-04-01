@@ -23,21 +23,27 @@ def _templateFile(data, path):
 
     return Template(src).render(**data)
 
+def _templateDirectory(name):
+    return os.path.join("html", name)
+
+def _pruneTemplateDirectory(name, path):
+    return path.replace(_templateDirectory(name) + "/", '', 1)
+
 def _listFiles(name):
-    directory = os.path.join("html", name)
-    files = glob(directory + '/**/*.**', recursive=True)
+    files = glob(_templateDirectory(name) + '/**/*.**', recursive=True)
 
     # Filter out src files or other junk that may have found its way in
     return [file for file in files if _ext(file) in ACCEPTED_FILE_TYPES]
 
-def _createPathToHTMLDict(data, files):
+def _createPathToHTMLDict(name, data, files):
     htmls = {}
 
     for file in files:
+        key = _pruneTemplateDirectory(name, file)
         if _ext(file) in ACCEPTED_TEMPLATE_FILE_TYPES:
-            htmls[file] = _templateFile(data, file)
+            htmls[key] = _templateFile(data, file)
         else:
-            htmls[file] = _read(file, binary=True)
+            htmls[key] = _read(file, binary=True)
 
     return htmls
 
@@ -53,4 +59,4 @@ def template(data, name="dummy"):
     """
 
     files = _listFiles(name)
-    return _createPathToHTMLDict(data, files)
+    return _createPathToHTMLDict(name, data, files)
