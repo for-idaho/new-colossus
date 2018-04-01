@@ -38,6 +38,7 @@ def index():
 
 
 @app.route('/api/sites/new', methods=["POST"])
+@jwt_required
 def new_site():
     schema = {
         "siteInfo": {
@@ -63,7 +64,7 @@ def new_site():
         print("Something went wrong creating the html!")
         raise exceptions.InternalServerError
 
-    name = str(time.time())
+    name = get_jwt_identity()
 
     return create_bucket(name, html['index.html'], html['error.html'])
 
