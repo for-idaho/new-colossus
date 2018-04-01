@@ -1,16 +1,11 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [dev-packages]
 
-
-
 [packages]
-
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
@@ -21,8 +16,7 @@ jsonschema = "*"
 flask-jwt = "*"
 flask-jwt-extended = "*"
 flask-cors = "*"
-
+"jinja2" = "*"
 
 [requires]
-
 python_version = "3.5"

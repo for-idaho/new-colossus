@@ -35,7 +35,7 @@ def index():
     return 'Hello, world!'
 
 
-@app.route('/sites/new', methods=["POST"])
+@app.route('/api/sites/new', methods=["POST"])
 def new_site():
     schema = {
         "files": {
@@ -169,3 +169,4 @@ def logout():
 def protected():
     email = get_jwt_identity()
     return jsonify({'hello': 'from {}'.format(email)}), 200
+
