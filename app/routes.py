@@ -15,6 +15,8 @@ from jsonschema import validate
 import time
 from app.models import Candidate, AuthToken
 import uuid
+from templates import generate
+from werkzeug import exceptions
 
 
 def authenticate(email, password):
@@ -38,23 +40,32 @@ def index():
 @app.route('/api/sites/new', methods=["POST"])
 def new_site():
     schema = {
-        "files": {
-            "index": {"type": "string"},
-            "error": {"type": "string"}
+        "siteInfo": {
+            "bio": {"type": "string"},
+            "events": {"type": "string"},
+            "issues": {"type": "string"},
+            "volunteer_url": {"type": "string"},
+            "donate_url": {"type": "string"},
+            "legal" : {"type": "string"}
         }
     }
 
     data = request.get_json()
+    if not data:
+        raise exceptions.BadRequest
     validate(data, schema)
 
-    files = data['files']
 
-    # TODO: Change this to be the JWT user when auth is working
-    # timestamp right now for easy-ish testing
-    name_TODO_CHANGE_ME_TO_JWT_USER = str(time.time())
+    siteInfo = data['siteInfo']
+    html = generate.template(siteInfo)
 
-    return create_bucket(name_TODO_CHANGE_ME_TO_JWT_USER,
-                         files['index'], files['error'])
+    if not html:
+        print("Something went wrong creating the html!")
+        raise exceptions.InternalServerError
+
+    name = str(time.time())
+
+    return create_bucket(name, html['index.html'], html['error.html'])
 
                          
 @app.route('/register', methods=['POST'])

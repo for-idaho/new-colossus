@@ -21,8 +21,5 @@ def test_templateFile():
     data = template._templateFile({"pet": "cat", "name": "george"},f)
     assert data == "cat, george"
 
-def test_templateDirectory():
-    assert os.path.exists(template._templateDirectory("dummy"))
-
 def test_pruneTemplateDirectory():
     assert template._pruneTemplateDirectory("dummy", "html/dummy/foo.html") == "foo.html"

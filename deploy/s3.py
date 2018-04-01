@@ -31,7 +31,7 @@ def create_bucket(bucket_name, index_data, error_data):
                               WebsiteConfiguration=_webconfig(
                                   error_file_name, index_file_name))
 
-    return "{}.s3-website-us-east-2.amazonaws.com".format(bucket_name)
+    return "{}.s3-website.us-east-2.amazonaws.com".format(bucket_name)
 
 
 def _make_bucket_public_readable(bucket_name):

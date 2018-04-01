@@ -24,7 +24,7 @@ def _templateFile(data, path):
     return Template(src).render(**data)
 
 def _templateDirectory(name):
-    return os.path.join("html", name)
+    return os.path.abspath(os.path.join("templates", "html", name))
 
 def _pruneTemplateDirectory(name, path):
     return path.replace(_templateDirectory(name) + "/", '', 1)
@@ -53,7 +53,7 @@ def template(data, name="dummy"):
     Read a file and fill in it's template 
     
     :param dict data: A dictionary representing the jinja2 info
-    :param str name: the folder name inside /tempalte/html/*
+    :param str name: the folder name inside /template/html/*
     :return: a dictionary where the keys are the filepaths and
          the values are the templated data
     """
