@@ -36,7 +36,7 @@ def register():
     print("Posted to /register")
     data = request.get_json()
     #Check if email is already in use
-    check_candidate = Candidate.query.filter_by(email=data['email'])
+    check_candidate = Candidate.query.filter_by(email=data['email']).first()
     if(check_candidate is not None):
       return jsonify({'status': 'Failure', 'error': 'Email is already in use. Please use another'})
     candidate = Candidate(candidate_id=uuid.uuid4().hex,
