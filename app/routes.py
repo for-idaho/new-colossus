@@ -11,6 +11,7 @@ from flask_jwt_extended import (
 from app import app, db
 from app.models import Candidate, AuthToken
 import uuid
+from jsonschema import validate, ValidationError
 
 
 def authenticate(email, password):
@@ -33,26 +34,49 @@ def index():
 
 @app.route('/register', methods=['POST'])
 def register():
-    print("Posted to /register")
-    data = request.get_json()
-    #Check if email is already in use
-    check_candidate = Candidate.query.filter_by(email=data['email']).first()
-    if(check_candidate is not None):
-      return jsonify({'status': 'Failure', 'error': 'Email is already in use. Please use another'})
-    candidate = Candidate(candidate_id=uuid.uuid4().hex,
-                          username=data['username'],
-                          email=data['email'],
-                          first_name=data['first_name'],
-                          middle_name=data['middle_name'],
-                          last_name=data['last_name'])
-    candidate.set_password(data['password'])
-    try:
-      db.session.add(candidate)
-      db.session.commit()
-      return jsonify({'status': 'Success'})
-    except:
-      print('Unexpected error:', sys.exc_info()[0])
-      return jsonify({'status': 'Failure', 'error': 'Unknown error - please try again later'})
+  schema = {
+    "type": "object",
+    "properties" :{
+      "username": {"type": "string"},
+      "email": {"type": "string"},
+      "password": {"type": "string"},
+      "first_name": {"type": "string"},
+      "middle_name": {"type": "string"},
+      "last_name": {"type": "string"}
+    },
+    "required": ["username", "email", "password", "first_name", "last_name"]
+  }
+  data = request.get_json()
+  try:
+    validate(data, schema=schema)
+  except ValidationError as e:
+    print(e)
+    return jsonify({'status': 'Failure', 'msg': 'Missing/incorrect fields: {}'.format(e)})
+  if(not 'username' in data or
+    not 'email' in data or
+    not 'password' in data):
+    return jsonify({'status': 'Failure', 'msg': 'Must provide username, email, and password'}), 400
+  #Check if email is already in use
+  check_candidate = Candidate.query.filter_by(email=data['email']).first()
+  if(check_candidate is not None):
+    return jsonify({'status': 'Failure', 'msg': 'Email is already in use. Please use another'})
+  check_candidate = Candidate.query.filter_by(username=data['username']).first()
+  if (check_candidate is not None):
+    return jsonify({'status': 'Failure', 'msg': 'Username is already in use. Please use another'})
+  candidate = Candidate(candidate_id=uuid.uuid4().hex,
+                        username=data['username'],
+                        email=data['email'],
+                        first_name=data['first_name'],
+                        middle_name=data['middle_name'] if 'middle_name' in data else None,
+                        last_name=data['last_name'])
+  candidate.set_password(data['password'])
+  try:
+    db.session.add(candidate)
+    db.session.commit()
+    return jsonify({'status': 'Success'})
+  except:
+    print('Unexpected error:', sys.exc_info()[0])
+    return jsonify({'status': 'Failure', 'msg': 'Unknown error - please try again later'})
 
 
 jwt = JWTManager(app)
@@ -70,19 +94,23 @@ jwt = JWTManager(app)
 @app.route('/token/auth', methods=['POST'])
 def login():
     email = request.json.get('email', None)
+    username = request.json.get('username', None)
     password = request.json.get('password', None)
 
-    print(email)
-    print(password)
-    Candidate.query.filter_by(email=email)
-
-    check_candidate = Candidate.query.filter_by(email=email).first()
-    if check_candidate is None or not check_candidate.check_password(password):
+    #Check email then username
+    check_candidate_email = Candidate.query.filter_by(email=email).first()
+    if check_candidate_email is None:
+      check_candidate_username = Candidate.query.filter_by(username=username).first()
+      if check_candidate_username is None or not check_candidate_username.check_password(password):
+        return jsonify({'login': False}), 401
+    else:
+      username = check_candidate_email.username
+      if not check_candidate_email.check_password(password):
         return jsonify({'login': False}), 401
 
     # Create the tokens we will be sending back to the user
-    access_token = create_access_token(identity=email, expires_delta=datetime.timedelta(days=1))
-    refresh_token = create_refresh_token(identity=email, expires_delta=datetime.timedelta(days=1))
+    access_token = create_access_token(identity=username, expires_delta=datetime.timedelta(days=1))
+    refresh_token = create_refresh_token(identity=username, expires_delta=datetime.timedelta(days=1))
 
     auth_token = AuthToken(jti=get_jti(access_token), revoked=False)
     refresh_auth_token = AuthToken(jti=get_jti(refresh_token), revoked=False)
