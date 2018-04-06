@@ -15,6 +15,7 @@ def create_bucket(bucket_name, index_data, error_data):
     error_data -- binary data for the error file
     """
 
+    bucket_name = bucket_name.lower()
     client = boto3.client('s3')
     client.create_bucket(Bucket=bucket_name, CreateBucketConfiguration={
         'LocationConstraint': 'us-east-2'
