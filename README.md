@@ -23,13 +23,7 @@ make init
 Once you've set up the dependencies, you should be able to just run the project with:
 
 ```
-make run
-```
-
-or just 
-
-```
-make
+make dev
 ```
 
 This will open a shell that you can play around with, but otherwise will need to exit out of eventually.
